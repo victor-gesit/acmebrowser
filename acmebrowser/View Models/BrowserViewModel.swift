@@ -8,5 +8,6 @@
 import SwiftUI
 
 class BrowserViewModel: ObservableObject {
-    @Published var currentTab: BrowserTabModel?
+    @Published var currentTab: BrowserTabModel = BrowserTabModel()
+    @Published var allTabs: [BrowserTabModel] = []
 }
