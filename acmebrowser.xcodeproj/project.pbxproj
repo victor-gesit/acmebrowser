@@ -16,6 +16,7 @@
 		0DA7F449280488A800965A72 /* acmebrowserUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA7F448280488A800965A72 /* acmebrowserUITestsLaunchTests.swift */; };
 		0DA7F45728048BB900965A72 /* BrowserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA7F45628048BB900965A72 /* BrowserViewModel.swift */; };
 		0DA7F45928048BE900965A72 /* BrowserTabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA7F45828048BE900965A72 /* BrowserTabModel.swift */; };
+		0DA7F45C28048F1000965A72 /* BrowserWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA7F45B28048F1000965A72 /* BrowserWebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		0DA7F448280488A800965A72 /* acmebrowserUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = acmebrowserUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0DA7F45628048BB900965A72 /* BrowserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewModel.swift; sourceTree = "<group>"; };
 		0DA7F45828048BE900965A72 /* BrowserTabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTabModel.swift; sourceTree = "<group>"; };
+		0DA7F45B28048F1000965A72 /* BrowserWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 		0DA7F42A280488A800965A72 /* acmebrowser */ = {
 			isa = PBXGroup;
 			children = (
+				0DA7F45A28048EE900965A72 /* UI */,
 				0DA7F45528048B9D00965A72 /* View Models */,
 				0DA7F42B280488A800965A72 /* acmebrowserApp.swift */,
 				0DA7F42D280488A800965A72 /* ContentView.swift */,
@@ -139,6 +142,14 @@
 				0DA7F45828048BE900965A72 /* BrowserTabModel.swift */,
 			);
 			path = "View Models";
+			sourceTree = "<group>";
+		};
+		0DA7F45A28048EE900965A72 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0DA7F45B28048F1000965A72 /* BrowserWebView.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0DA7F45928048BE900965A72 /* BrowserTabModel.swift in Sources */,
+				0DA7F45C28048F1000965A72 /* BrowserWebView.swift in Sources */,
 				0DA7F42E280488A800965A72 /* ContentView.swift in Sources */,
 				0DA7F42C280488A800965A72 /* acmebrowserApp.swift in Sources */,
 				0DA7F45728048BB900965A72 /* BrowserViewModel.swift in Sources */,
