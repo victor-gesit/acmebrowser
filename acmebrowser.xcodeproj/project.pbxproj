@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		0D3C9A6C2805C50A007F32DE /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3C9A6B2805C50A007F32DE /* URL+Extensions.swift */; };
 		0D3C9A6E2806D41C007F32DE /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3C9A6D2806D41C007F32DE /* String+Extensions.swift */; };
+		0D3C9A71280718FA007F32DE /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3C9A70280718FA007F32DE /* Color+Extensions.swift */; };
+		0D3C9A73280724BC007F32DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3C9A72280724BB007F32DE /* Constants.swift */; };
+		0D3C9A7528074624007F32DE /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3C9A7428074624007F32DE /* Image+Extensions.swift */; };
+		0D3C9A782807490E007F32DE /* LoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3C9A772807490E007F32DE /* LoadingProgressView.swift */; };
+		0D3C9A7A280750E9007F32DE /* UIKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3C9A79280750E9007F32DE /* UIKit+Extensions.swift */; };
 		0DA7F42C280488A800965A72 /* acmebrowserApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA7F42B280488A800965A72 /* acmebrowserApp.swift */; };
 		0DA7F42E280488A800965A72 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DA7F42D280488A800965A72 /* ContentView.swift */; };
 		0DA7F430280488A800965A72 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DA7F42F280488A800965A72 /* Assets.xcassets */; };
@@ -42,6 +47,11 @@
 /* Begin PBXFileReference section */
 		0D3C9A6B2805C50A007F32DE /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		0D3C9A6D2806D41C007F32DE /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		0D3C9A70280718FA007F32DE /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		0D3C9A72280724BB007F32DE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0D3C9A7428074624007F32DE /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
+		0D3C9A772807490E007F32DE /* LoadingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingProgressView.swift; sourceTree = "<group>"; };
+		0D3C9A79280750E9007F32DE /* UIKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+Extensions.swift"; sourceTree = "<group>"; };
 		0DA7F428280488A800965A72 /* acmebrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = acmebrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DA7F42B280488A800965A72 /* acmebrowserApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = acmebrowserApp.swift; sourceTree = "<group>"; };
 		0DA7F42D280488A800965A72 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -88,8 +98,28 @@
 			children = (
 				0D3C9A6B2805C50A007F32DE /* URL+Extensions.swift */,
 				0D3C9A6D2806D41C007F32DE /* String+Extensions.swift */,
+				0D3C9A70280718FA007F32DE /* Color+Extensions.swift */,
+				0D3C9A72280724BB007F32DE /* Constants.swift */,
+				0D3C9A7428074624007F32DE /* Image+Extensions.swift */,
+				0D3C9A79280750E9007F32DE /* UIKit+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		0D3C9A6F28070647007F32DE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0DA7F42F280488A800965A72 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		0D3C9A76280748EE007F32DE /* Sub Views */ = {
+			isa = PBXGroup;
+			children = (
+				0D3C9A772807490E007F32DE /* LoadingProgressView.swift */,
+			);
+			path = "Sub Views";
 			sourceTree = "<group>";
 		};
 		0DA7F41F280488A800965A72 = {
@@ -115,12 +145,12 @@
 		0DA7F42A280488A800965A72 /* acmebrowser */ = {
 			isa = PBXGroup;
 			children = (
+				0D3C9A6F28070647007F32DE /* Resources */,
 				0D3C9A6A2805C4FA007F32DE /* Extensions */,
 				0DA7F45A28048EE900965A72 /* UI */,
 				0DA7F45528048B9D00965A72 /* View Models */,
 				0DA7F42B280488A800965A72 /* acmebrowserApp.swift */,
 				0DA7F42D280488A800965A72 /* ContentView.swift */,
-				0DA7F42F280488A800965A72 /* Assets.xcassets */,
 				0DA7F431280488A800965A72 /* Preview Content */,
 			);
 			path = acmebrowser;
@@ -163,6 +193,7 @@
 		0DA7F45A28048EE900965A72 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				0D3C9A76280748EE007F32DE /* Sub Views */,
 				0DA7F45B28048F1000965A72 /* BrowserWebView.swift */,
 				0DA7F45D280496BE00965A72 /* BrowserView.swift */,
 			);
@@ -301,11 +332,16 @@
 			files = (
 				0DA7F45928048BE900965A72 /* BrowserTabModel.swift in Sources */,
 				0D3C9A6C2805C50A007F32DE /* URL+Extensions.swift in Sources */,
+				0D3C9A71280718FA007F32DE /* Color+Extensions.swift in Sources */,
 				0DA7F45C28048F1000965A72 /* BrowserWebView.swift in Sources */,
+				0D3C9A7A280750E9007F32DE /* UIKit+Extensions.swift in Sources */,
 				0DA7F42E280488A800965A72 /* ContentView.swift in Sources */,
+				0D3C9A73280724BC007F32DE /* Constants.swift in Sources */,
 				0D3C9A6E2806D41C007F32DE /* String+Extensions.swift in Sources */,
 				0DA7F42C280488A800965A72 /* acmebrowserApp.swift in Sources */,
 				0DA7F45728048BB900965A72 /* BrowserViewModel.swift in Sources */,
+				0D3C9A7528074624007F32DE /* Image+Extensions.swift in Sources */,
+				0D3C9A782807490E007F32DE /* LoadingProgressView.swift in Sources */,
 				0DA7F45E280496BE00965A72 /* BrowserView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

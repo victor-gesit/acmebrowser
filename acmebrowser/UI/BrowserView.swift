@@ -10,80 +10,167 @@ import SwiftUI
 struct BrowserView: View {
     @StateObject var allModel = BrowserViewModel()
     @State var faviconForPage: [UUID: URL] = [:]
+    @State var loadingProgress: Double = 1
+    @State var loadingProgressHeight: Double = 4
+    @State var canGoBack = false
+    @State var canReload = false
+    @State var canGoForward = true
+    @State var creatingTab = false
+    @State var errorOccured = false
+    
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color.black
-                .ignoresSafeArea()
+            Color.from(.appBackground)
             
-            VStack(spacing: 0) {
-                HStack(spacing: 10) {
+            VStack {
+                HStack {
                     HStack {
-                        TextField("Enter url",
-                                  text: $allModel.currentTab.urlString)
-                            .keyboardType(.URL)
-                            .autocapitalization(.none)
-                            .padding(10)
+                        ZStack(alignment: .leading) {
+                            if(allModel.currentTab.urlString.isEmpty) {
+                                Text(String.enterUrl)
+                                    .foregroundColor(Color.from(.textColor))
+                                    .padding(.leading, 10)
+                            }
+                            
+                            TextField("", text: $allModel.currentTab.urlString)
+                                .foregroundColor(.black)
+                                .disableAutocorrection(true)
+                                .keyboardType(.URL)
+                                .autocapitalization(.none)
+                                .padding(Consts.Home.pagePadding)
+                                .keyboardType(.URL)
+                                .submitLabel(.go)
+                                .onSubmit {
+                                    allModel.currentTab.loadUrl()
+                                    UIApplication.shared.endEditing()
+                                    
+                                }
+                        }
                         Spacer()
+                        Button {
+                            allModel.currentTab.reloadPage()
+                        } label: {
+                            Image.from(.reload)
+                                .resizable()
+                                .renderingMode(.template)
+                                .frame(width: Consts.Home.reloadButton, height: Consts.Home.reloadButton)
+                                .foregroundColor(Color.from(canReload ? .progressView : .borders))
+                                .frame(width: Consts.Home.buttonWidth, height: Consts.Home.buttonHeight)
+                                .padding(Consts.Home.imagePadding)
+                        }
+                        .onReceive(allModel.currentTab.$canReload) { can in
+                            canReload = can
+                        }
                     }
-                    .background(Color.white)
-                    .cornerRadius(30)
+                    .background(Color.from(.textFieldBackground))
+                    .cornerRadius(Consts.Home.cornerRadius)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: Consts.Home.cornerRadius)
+                            .stroke(Color.from(.borders), lineWidth: Consts.Home.inputFieldBorderWidth)
+                    )
                     
-                    Button("Go", action: {
-                        allModel.currentTab.loadUrl()
-                    })
-                    .foregroundColor(.white)
-                    .padding(10)
-                    
-                    Button("+", action: {
-                        allModel.addTab()
-                    })
-                    .foregroundColor(.white)
-                    .padding(10)
-                    Button("<", action: {
+                    Button {
                         allModel.currentTab.goBack()
-                    })
-                    .foregroundColor(.white)
-                    .padding(10)
-                    Button(">", action: {
-                        allModel.currentTab.goForward()
-                    })
-                    .foregroundColor(.white)
-                    .padding(10)
+                    } label: {
+                        Image.from(.goBack)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(Color.from(canGoBack ? .navButton : .borders))
+                            .frame(width: Consts.Home.buttonWidth, height: Consts.Home.buttonHeight)
+                            .padding(Consts.Home.imagePadding)
+                    }
+                    .disabled(!canGoBack)
+                    .onReceive(allModel.currentTab.$canGoBack) { canGo in
+                        canGoBack = canGo
+                    }
                     
-                }.padding(10)
+                    Button {
+                        allModel.currentTab.goForward()
+                    } label: {
+                        Image.from(.goForward)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(Color.from(canGoForward ? .navButton : .borders))
+                            .frame(width: Consts.Home.buttonWidth, height: Consts.Home.buttonHeight)
+                            .padding(Consts.Home.imagePadding)
+                    }
+                    .disabled(!canGoForward)
+                    .onReceive(allModel.currentTab.$canGoForward) { canGo in
+                        canGoForward = canGo
+                    }
+                    
+                }.padding(Consts.Home.pagePadding)
+                LoadingProgressView(progressPercentage: $loadingProgress)
+                    .onReceive(allModel.currentTab.$estimatedProgress) { progress in
+                        loadingProgress = progress
+                    }
+                
                 ZStack {
                     ForEach([allModel.currentTab], id: \.id) { tab in
                         if tab.id == allModel.currentTab.id {
                             tab.browserWebView
                         }
                     }
+                    if errorOccured {
+                        VStack {
+                            Text(String.errorOccured)
+                                .foregroundColor(.red)
+                                .lineLimit(0)
+                        }
+                        .background(Color.from(.appBackground))
+                    } else if !canReload {
+                        VStack {
+                            Text(String.newTabString + " \(allModel.currentTab.tabIndex)")
+                                .foregroundColor(Color.from(.textColor))
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
+                        .background(Color.from(.appBackground))
+                    }
                 }
-                    .background(.blue)
+                .background(Color.from(.appBackground))
+                .onReceive(allModel.$creatingTab) { creating in
+                    creatingTab = creating
+                }
+                .onReceive(allModel.currentTab.$errorOcured) { errored in
+                    errorOccured = errored
+                }
+                
                 HStack {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(allModel.allTabs, id: \.id) { tab in
                                 VStack {
                                     if let url = faviconForPage[tab.id] {
-                                        AsyncImage(url: url) { image in
-                                            image
-                                                .resizable()
-                                                .frame(width: 40, height: 40)
-                                                .foregroundColor(.white)
-                                                .onTapGesture {
-                                                    allModel.switchTab(to: tab.id)
-                                                }
-                                        } placeholder: {
-                                            ProgressView()
+                                        VStack {
+                                            AsyncImage(url: url) { image in
+                                                image
+                                                    .resizable()
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: Consts.Home.buttonHeight)
+                                                            .stroke(Color.from(.progressView), lineWidth: tab.id == allModel.currentTab.id ? Consts.Home.imagePadding : 0)
+                                                    )
+                                                    .frame(width: Consts.Home.buttonWidth, height: Consts.Home.buttonHeight)
+                                                    .cornerRadius(Consts.Home.buttonWidth/2)
+                                                    .foregroundColor(.white)
+                                                    .onTapGesture {
+                                                        allModel.switchTab(to: tab.id)
+                                                    }
+                                            } placeholder: {
+                                                ProgressView()
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: Consts.Home.buttonHeight)
+                                                            .stroke(Color.from(.progressView), lineWidth: tab.id == allModel.currentTab.id ? Consts.Home.imagePadding : 0)
+                                                    )
+                                                    .frame(width: Consts.Home.buttonWidth, height: Consts.Home.buttonHeight)
+                                                    .onTapGesture {
+                                                        allModel.switchTab(to: tab.id)
+                                                    }
+                                            }
                                         }
-                                        
                                         
                                     }
                                     else {
-                                        Text("N")
-                                            .cornerRadius(10)
-                                            .frame(width: 20, height: 20)
-                                            .background(.white)
+                                        emptyTabView(selected: tab.id == allModel.currentTab.id)
                                             .onTapGesture {
                                                 allModel.switchTab(to: tab.id)
                                             }
@@ -96,19 +183,39 @@ struct BrowserView: View {
                             }
                         }
                     }
-                    .frame(height: 50)
+                    .frame(height: 40)
+                    .padding(.leading, Consts.Home.pagePadding)
                     
                     Spacer()
-                    Button("+", action: {
+                    Button {
                         allModel.addTab()
-                    })
-                    .foregroundColor(.white)
-                    .frame(width: 20, height: 20)
-                    .padding()
+                    } label: {
+                        Image.from(.addTab)
+                            .resizable()
+                            .frame(width: Consts.Home.buttonWidth, height: Consts.Home.buttonHeight)
+                            .padding(Consts.Home.imagePadding)
+                    }
+                    .padding(.trailing, Consts.Home.pagePadding)
                 }
-                
             }
         }
+        .background(Color.from(.appBackground))
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
+    }
+    
+    func emptyTabView(selected: Bool) -> some View {
+        Text(String.newTab)
+            .cornerRadius(Consts.Home.buttonHeight/2)
+            .frame(width: Consts.Home.buttonWidth, height: Consts.Home.buttonHeight)
+            .overlay(
+                RoundedRectangle(cornerRadius: Consts.Home.buttonHeight)
+                    .stroke(Color.from(.progressView), lineWidth: selected ? Consts.Home.border : 0)
+            )
+            .background(Color.from(.navButton))
+            .foregroundColor(Color.from(.textColor))
+            .cornerRadius(Consts.Home.buttonWidth/2)
     }
 }
 

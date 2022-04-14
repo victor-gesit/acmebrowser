@@ -8,6 +8,10 @@
 import UIKit
 
 extension String {
+    static let enterUrl = "Enter url"
+    static let newTab = "N"
+    static let errorOccured = "Error Occured. Check the URL"
+    static let newTabString = "New Tab"
     var secureURLString: String? {
         if var components = URLComponents(string: self){
             components.scheme = "https"
